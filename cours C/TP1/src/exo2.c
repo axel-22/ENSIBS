@@ -14,8 +14,6 @@ void calcul_x() {
 
     X = -3 + 4 * (5 - 6);
     printf("X = -3 + 4 * (5 - 6) = %d\n", X);
-
-    return 0;
 }
 
 int main() {
