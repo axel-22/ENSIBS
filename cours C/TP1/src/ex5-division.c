@@ -26,9 +26,11 @@ int main() {
     printf("((float) 10) / 3 (1 chiffre après virgule) : %.1f\n", flottant);
     printf("((float) 10) / 3 (5 chiffres après virgule) : %.5f\n", flottant);
 
+    printf("Si les deux éléments divisés sont des entiers, le reste de la division est ignoré");
+    printf("\n10.0 est un float, donc 3 est converti en float avant la division.");
+    printf("\n(float) 10 transforme 10 en 10.0, donc la division est flottante.");
+
     return 0;
 }
 
-printf("Si les deux éléments divisés sont des entiers, le reste de la division est ignoré");
-printf("\n10.0 est un float, donc 3 est converti en float avant la division.");
-printf("\n(float) 10 transforme 10 en 10.0, donc la division est flottante.");
+
