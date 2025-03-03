@@ -5,6 +5,7 @@ BIN_DIR = bin
 # Compilateur et options
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
+LDFLAGS = -lm
 
 # Trouver tous les fichiers .c
 SRCS = $(wildcard $(SRC_DIR)/*.c)
