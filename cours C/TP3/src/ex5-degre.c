@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "degre.h"
+#include "ex5-degre.h"
 
 // Conversion Celsius → Kelvin
 float CelsiusAKelvin(float celsius) {

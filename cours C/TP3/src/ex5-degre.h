@@ -1,3 +1,4 @@
+#define DEGRE_H
 
 // Fonctions de conversion
 float CelsiusAKelvin(float celsius);

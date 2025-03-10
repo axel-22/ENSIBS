@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "degre.h"
+#include "ex5-degre.h"
 
 int main() {
     float tempC = 100.0, tempK, tempF;

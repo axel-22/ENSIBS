@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "degre.h"
+#include "ex5-degre.h"
 
 // Fonction pour lire le choix utilisateur avec validation
 int lireChoix() {
