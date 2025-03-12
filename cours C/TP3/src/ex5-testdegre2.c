@@ -5,10 +5,10 @@
 int lireChoix() {
     int choix;
     printf("\nMenu de conversion :\n");
-    printf("1 - Celsius → Kelvin\n");
-    printf("2 - Celsius → Fahrenheit\n");
-    printf("3 - Kelvin → Celsius\n");
-    printf("4 - Fahrenheit → Celsius\n");
+    printf("1 - Celsius -> Kelvin\n");
+    printf("2 - Celsius -> Fahrenheit\n");
+    printf("3 - Kelvin -> Celsius\n");
+    printf("4 - Fahrenheit -> Celsius\n");
     printf("0 - Quitter\n");
     printf("Votre choix : ");
 

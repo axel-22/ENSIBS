@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+//
 void calcul_x() {
     int X;
     
