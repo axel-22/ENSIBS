@@ -1,3 +1,9 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP1 - Exercice 3 - Afficher "Hello world" avec une fonction
+ */
 #include <stdio.h>
 // Fonction intitulé hw sans retour qui affiche "Hello world" puis un retour à la ligne
 void hw() {

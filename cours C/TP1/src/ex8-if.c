@@ -5,23 +5,21 @@ int main() {
     float a, b;
     char input;
     float nb;
+    char term;
 
-    do{
+    do {
         printf("\nEntrez une operation (+, -, *, /) ou 's' pour sortir : ");
-        input = scanf(" %c", &operateur);
-        if (input != 1) {
-            printf("Erreur: Veuillez entrer un nombre valide !\n");
-            while (getchar() != '\n');
-            continue;
+        input = scanf(" %c%c", &operateur, &term);  // Lire un caractère et le caractère suivant
+
+        if (input != 2 || term != '\n') {
+            printf("Erreur : veuillez entrer un seul caractère.\n");
+            while (getchar() != '\n');  // Vider le buffer pour éviter une boucle infinie
+        } else if (!(operateur == '+' || operateur == '-' || operateur == '*' || operateur == '/' || operateur == 's')) {
+            printf("Erreur : caractère non valide. Utilisez +, -, *, ou  's' pour sortir /.\n");
+            input = 0;  // Forcer la boucle à continuer
         }
-        if (operateur != '+' && operateur != '-' && operateur != '*' && operateur != '/' && operateur != 's'){
-            printf("Erreur: Veuillez entrer un caractère parmis (+, -, *, /,s) !\n");
-            continue;
-        }
-        if (operateur == 's') {
-            printf("Programme terminé.\n");
-            break;
-        }
+
+    } while (input != 2 || term != '\n'); // boucle tant que l'utilisateur ne rentre pas un seul caractère
         
         do{
             printf("Entrez deux nombres : ");

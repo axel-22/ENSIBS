@@ -1,8 +1,14 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP1 - Exercice 6 - Afficher des opérations logiques
+ */
 #include <stdio.h>
-
+// Fonction main qui affiche le résultat de plusieurs opérations logiques
 int main() {
 
-    int a = 5, b = 6;
+    int a = 5, b = 6; // Déclaration de deux variables entières
 
     printf("ET bit à bit: 5 & 6 = %d\n", a & b);
     printf("le résultat vaut 4 car : 5  = 0b0101 et 6 = 0b0110 donc le resultat vaux 0b0100 donc 4 en base 10\n"); 
