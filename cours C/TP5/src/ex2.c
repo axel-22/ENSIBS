@@ -8,7 +8,7 @@
 void main()
 {
  int i;
- int t[N] = {10, 20, 30, 40, 50};
+ double t[N] = {10, 20, 30, 40, 50};
 
  for(i=0;i<N;i++)
  printf("t[%d] = %d ; &t[%d] = %u\n",i,t[i],i,&t[i]);
