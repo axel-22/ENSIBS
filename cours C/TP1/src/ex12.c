@@ -1,3 +1,9 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP1 - Exercice 12 - Compter le nombre de voyelles dans un texte
+ */
 #include <stdio.h>
 #include <string.h>
 
@@ -5,13 +11,14 @@
 
 // Fonction pour vérifier si un caractère est une voyelle
 int est_voyelle(char c) {
+    int ret = 0;
     char voyelles[] = "aeiouyAEIOUY";
     for (int i = 0; voyelles[i] != '\0'; i++) {
         if (c == voyelles[i]) {
-            return 1;
+            ret = 1;
         }
     }
-    return 0;
+    return ret;
 }
 
 int main() {

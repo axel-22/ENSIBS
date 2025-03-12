@@ -1,24 +1,31 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP2 - Exercice 2 - Affichage de formes géométriques sous forme d'étoiles
+ */
 #include <stdio.h>
-
+// Fonction pour demander un nombre entier positif à l'utilisateur et le retourner le nombre d'étoile
 int demander_nombre() {
     int nombre;
     int input;
+    char term;
 
     do {
-        printf("Entrez un nombre compris [1;20] : ");
-        input = scanf("%d", &nombre);
+        printf("Entrez un nombre entier entre 1 et 20 : ");
+        input = scanf("%d%c", &nombre, &term);
         // Vérifier si scanf a bien lu un entier
-        if (input != 1) {
+        if (input != 2  || term != '\n') {
             printf("Erreur: Veuillez entrer un nombre valide !\n");
             // Nettoyer le buffer en vidant les entrées invalides
             while (getchar() != '\n');
             continue;  // Recommencer la boucle
         }
         // Vérifier si le nombre est dans la plage [1,20]
-        if (nombre < 1 || nombre > 20) {
+        if (nombre <= 1 || nombre > 20) {
             printf("Erreur: le nombre doit être compris entre 1 et 20\n");
         }
-    } while (input != 1 || nombre < 1 || nombre > 20);
+    } while (input != 2 || nombre <= 1 || nombre > 20 || term != '\n');
 
     return nombre;
 }

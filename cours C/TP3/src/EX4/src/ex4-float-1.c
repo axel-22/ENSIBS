@@ -1,3 +1,9 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP3 - Exercice 3 - Comparaison de deux décimaux avec un type int
+ */
 #include <stdio.h>
 
 // Fonction de comparaison
@@ -11,34 +17,34 @@ int compare(int a, int b) {
     return ret;
 }
 
-
 int demander_nombre() {
-    int nombre;
-    int input;
+    float nombre;
+    float input;
+    char term;
     do {
-        printf("Entrez un nombre entier:\n ");
-        input = scanf("%d", &nombre);
+        printf("Entrez un nombre décimal : ");
+        input = scanf("%d%c", &nombre, &term);
         // Vérifier si scanf a bien lu un entier
-        if (input != 1) {
+        if (input != 2 || term != '\n') {
             printf("Erreur: Veuillez entrer un nombre valide !\n");
             // Nettoyer le buffer en vidant les entrées invalides
             while (getchar() != '\n');
             continue;  // Recommencer la boucle
         }
-    } while (input != 1);
+    } while (input != 2 || term != '\n');
 
     return nombre;
 }
 
 int main() {
-    int x, y;
+    float x, y;
     x = demander_nombre();
     y = demander_nombre();
     int c = compare(x, y);
     if (c) {
-        printf("Les deux entiers sont égaux: %d.\n", c);
+        printf("Les deux décimaux sont égaux: %d.\n", c);
     } else {
-        printf("Les deux entiers sont différents: %d.\n", c);
+        printf("Les deux décimaux sont différents: %d.\n", c);
     }
 
     return 0;

@@ -1,3 +1,9 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP2 - Exercice 2 - Tri par insertion
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

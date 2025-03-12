@@ -1,5 +1,11 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP1 - Exercice 9 - Affiche la somme des entiers de 1 à n en utilisant des boucles for et while
+ */
 #include <stdio.h>
-
+// Fonction qui demande un nombre entier à l'utilisateur et le retourne
 int demander_nombre() {
     int nombre;
     int input;
@@ -14,7 +20,6 @@ int demander_nombre() {
             while (getchar() != '\n');
             continue;  // Recommencer la boucle
         }
-        // Vérifier si le nombre est dans la plage [1,20]
         if (nombre <= 0) {
             printf("Erreur: le nombre doit être supérieur à 0\n");
         }
@@ -22,7 +27,7 @@ int demander_nombre() {
 
     return nombre;
 }
-
+// Fonction qui calcule la somme des entiers de 1 à n en utilisant une boucle for à indice incrémenté
 void boucle_for_i(int n){
     int somme;
     somme = 0;
@@ -33,7 +38,7 @@ void boucle_for_i(int n){
     printf("Une boucle for à indice incrémenté entre 0 et %d\n",n);
     printf("somme = %d\n", somme);
 }
-
+// Fonction qui calcule la somme des entiers de 1 à n en utilisant une boucle for à indice décrémenté
 void boucle_for_d(int n){
     int somme;
     somme = 0;
@@ -44,7 +49,7 @@ void boucle_for_d(int n){
     printf("Une boucle for à indice décrémenté entre 0 et %d\n",n);
     printf("somme = %d\n", somme);
 }
-
+// Fonction qui calcule la somme des entiers de 1 à n en utilisant une boucle while à indice incrémenté
 void boucle_while_i(int n){
     int somme;
     somme = 0;
@@ -57,7 +62,7 @@ void boucle_while_i(int n){
     printf("Une boucle while à indice incrémenté entre 0 et %d\n",n);
     printf("somme = %d\n", somme);
 }
-
+// Fonction qui calcule la somme des entiers de 1 à n en utilisant une boucle while à indice décrémenté
 void boucle_while_d(int n){
     int somme;
     somme = 0;
@@ -75,6 +80,7 @@ int main() {
     int n;
     n = demander_nombre();
     printf("n = %d\n", n);
+    // Appel des fonctions de calcul de somme
     boucle_for_i(n);
     boucle_for_d(n);
     boucle_while_i(n);
