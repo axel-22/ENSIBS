@@ -1,3 +1,9 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP4 - Exercice 1 - Apprentisage des struct, manipulation de personnes
+ */
 #include <stdio.h>
 #include <string.h>
 
@@ -19,6 +25,64 @@ struct PERSONNE {
 struct PERSONNE personnes[20];
 int nombre_personnes = 0;  // Variable pour suivre le nombre de personnes enregistrées
 
+
+int is_valid_name(const char *nom) {
+    int ret = 1;
+    // Liste des caractères valides
+    const char valid_chars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóúàèìòùâêîôûäëïöüãõçÇàèéù'-";
+    
+    while (*nom) {
+        if (!strchr(valid_chars, *nom)) {
+            ret = 0;  // Caractère invalide trouvé
+        }
+        nom++;
+    }
+    return ret;  // Tous les caractères sont valides
+}
+
+// Vérifier si une année est bissextile
+int est_bissextile(int annee) {
+    int ret = 0;
+    if ((annee % 4 == 0 && annee % 100 != 0) || annee % 400 == 0) {
+        ret = 1;
+    }
+    return ret;
+}
+
+// Vérifier si une date est valide et dans la plage autorisée
+int est_date_valide(int jour, int mois, int annee) {
+    int ret = 1;
+    //vérification de la plage de l'année
+    if (annee < 1900 || annee > 2025){
+        ret = 0;
+    }
+    // Vérification de la plage du mois
+    if (mois < 1 || mois > 12) {
+        ret = 0;
+    }
+    // jours max dans chaque mois
+    int jours_dans_mois[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; 
+    // Vérification du jour en fonction du mois
+    if (mois == 2 && est_bissextile(annee)) {
+        if (jour < 1 || jour > 29){
+            ret = 0;
+        }
+    } else {
+        if (jour < 1 || jour > jours_dans_mois[mois - 1]){
+            ret = 0;
+        }
+    }
+
+    // Vérification de la limite maximale : 30/03/2025
+    if (annee == 2025) {
+        //Vérification en fonction de la date de rendu du TP
+        if (mois > 3 || (mois == 3 && jour > 30)){
+            ret = 0;
+        }
+    }
+
+    return ret;
+}
 // Fonction pour définir une personne
 void definir_personne() {
     if (nombre_personnes >= 20) {
@@ -27,17 +91,50 @@ void definir_personne() {
     }
 
     struct PERSONNE p;
-    printf("Entrez le nom de la personne : ");
-    scanf("%s", p.nom);
-    printf("Entrez le prénom de la personne : ");
-    scanf("%s", p.prenom);
-    printf("Entrez le jour de naissance : ");
-    scanf("%d", &p.date_naissance.jour);
-    printf("Entrez le mois de naissance : ");
-    scanf("%d", &p.date_naissance.mois);
-    printf("Entrez l'année de naissance : ");
-    scanf("%d", &p.date_naissance.annee);
+    int input;
+    char term;
+    do {
+        printf("Entrez le nom de la personne : ");
+        input = scanf("%49s%c", p.nom, &term);
+        // Vérifier si scanf a bien lu un entier
+        if (input != 2 || !is_valid_name(p.nom) || term != '\n') {
+            printf("Erreur: Veuillez entrer un nom valide !\n");
+            // Nettoyer le buffer en vidant les entrées invalides
+            while (getchar() != '\n');
+            continue;  // Recommencer la boucle
+        }
+    } while (input != 2 || !is_valid_name(p.nom) || term != '\n');
+    do {
+        printf("Entrez le prénom de la personne : ");
+        input = scanf("%49s%c", p.prenom, &term);
+        // Vérifier si scanf a bien lu un entier
+        if (input != 2 || !is_valid_name(p.prenom) || term != '\n') {
+            printf("Erreur: Veuillez entrer un nom valide !\n");
+            // Nettoyer le buffer en vidant les entrées invalides
+            while (getchar() != '\n');
+            continue;  // Recommencer la boucle
+        }
+    } while (input != 2 || !is_valid_name(p.prenom) || term != '\n');
+    
+    // Demander et valider la date de naissance
+    do {
+        printf("Entrez le jour de naissance : ");
+        scanf("%d", &p.date_naissance.jour);
+        printf("Entrez le mois de naissance : ");
+        scanf("%d", &p.date_naissance.mois);
+        printf("Entrez l'année de naissance : ");
+        scanf("%d", &p.date_naissance.annee);
 
+        if (!est_date_valide(p.date_naissance.jour, p.date_naissance.mois, p.date_naissance.annee)) {
+            printf("Erreur: Veuillez entrer une date valide entre 01/01/1900 et 30/03/2025.\n");
+            while (getchar() != '\n');  // Nettoyer le buffer
+            continue;
+        } else {
+            break;  // Date valide, sortir de la boucle
+        }
+    } while (1);
+
+    printf("La personne a été ajoutée.\n");
     personnes[nombre_personnes] = p;
     nombre_personnes++;
 }
@@ -86,6 +183,8 @@ void trier_par_date_naissance() {
 // Fonction pour retrouver, modifier et afficher les données d'une personne à partir de son nom
 void modifier_personne_par_nom() {
     char nom[20];
+    int input;
+    char term;
     printf("Entrez le nom de la personne à modifier : ");
     scanf("%s", nom);
 
@@ -95,14 +194,35 @@ void modifier_personne_par_nom() {
             printf("Personne trouvée :\n");
             afficher_personne(personnes[i]);
             printf("Modifiez les données de la personne (nouveau prénom, nouvelle date de naissance) :\n");
-            printf("Entrez le nouveau prénom : ");
-            scanf("%s", personnes[i].prenom);
-            printf("Entrez le nouveau jour de naissance : ");
-            scanf("%d", &personnes[i].date_naissance.jour);
-            printf("Entrez le nouveau mois de naissance : ");
-            scanf("%d", &personnes[i].date_naissance.mois);
-            printf("Entrez la nouvelle année de naissance : ");
-            scanf("%d", &personnes[i].date_naissance.annee);
+            do {
+                printf("Entrez le prénom de la personne : ");
+                input = scanf("%49s%c", personnes[i].prenom, &term);
+                // Vérifier si scanf a bien lu un entier
+                if (input != 2 || !is_valid_name(personnes[i].prenom) || term != '\n') {
+                    printf("Erreur: Veuillez entrer un nom valide !\n");
+                    // Nettoyer le buffer en vidant les entrées invalides
+                    while (getchar() != '\n');
+                    continue;  // Recommencer la boucle
+                }
+            } while (input != 2 || !is_valid_name(personnes[i].prenom) || term != '\n');
+            
+            // Demander et valider la date de naissance
+            do {
+                printf("Entrez le jour de naissance : ");
+                scanf("%d", &personnes[i].date_naissance.jour);
+                printf("Entrez le mois de naissance : ");
+                scanf("%d", &personnes[i].date_naissance.mois);
+                printf("Entrez l'année de naissance : ");
+                scanf("%d", &personnes[i].date_naissance.annee);
+        
+                if (!est_date_valide(personnes[i].date_naissance.jour, personnes[i].date_naissance.mois, personnes[i].date_naissance.annee)) {
+                    printf("Erreur: Veuillez entrer une date valide entre 01/01/1900 et 30/03/2025.\n");
+                    while (getchar() != '\n');  // Nettoyer le buffer
+                    continue;
+                } else {
+                    break;  // Date valide, sortir de la boucle
+                }
+            } while (1);
             printf("Les données ont été modifiées.\n");
             trouve = 1;
             break;
@@ -141,6 +261,8 @@ void supprimer_personne() {
 // Fonction pour afficher le menu et choisir l'option
 void menu() {
     int choix;
+    int input;
+    char term;
     do {
         printf("\n--- Menu ---\n");
         printf("1. Définir une personne\n");
@@ -149,8 +271,18 @@ void menu() {
         printf("4. Modifier une personne par nom\n");
         printf("5. Supprimer une personne\n");
         printf("6. Quitter\n");
-        printf("Entrez votre choix : ");
-        scanf("%d", &choix);
+        do {
+            printf("Entrez votre choix : ");
+            input = scanf("%d%c", &choix, &term);
+            // Vérifier si scanf a bien lu un entier
+            if (input != 2 || choix < 1 || choix > 6 || term != '\n') {
+                printf("Erreur: Veuillez entrer un numéro valide !\n");
+                // Nettoyer le buffer en vidant les entrées invalides
+                while (getchar() != '\n');
+                continue;  // Recommencer la boucle
+            }
+        } while (input != 2 || choix < 1 || choix > 6 || term != '\n');
+       
 
         switch (choix) {
             case 1:
