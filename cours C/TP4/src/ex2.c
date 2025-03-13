@@ -2,7 +2,7 @@
  * @author HUGO Chiarel
  * @author JEMAI Axel
  * @date 30/03/2025
- * TP4 - Exercice 1 - Apprentisage des struct, manipulation de personnes
+ * TP4 - Exercice 2 - Apprentisage des struct, manipulation de personnes
  */
 #include <stdio.h>
 #include <string.h>
