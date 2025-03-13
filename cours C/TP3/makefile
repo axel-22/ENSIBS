@@ -1,34 +1,23 @@
-# Dossiers
-SRC_DIR = src
-BIN_DIR = bin
+# Liste des sous-dossiers contenant un Makefile
+SUBDIRS := $(wildcard src/*)
 
-# Compilateur et options
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
-LDFLAGS = -lm
+# Cible principale : compile tous les sous-projets
+all:
+	@for dir in $(SUBDIRS); do \
+		if [ -f $$dir/makefile ]; then \
+			$(MAKE) -C $$dir; \
+		fi \
+	done
 
-# Trouver tous les fichiers .c
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-
-# Transformer chaque .c en exécutable
-EXECS = $(SRCS:$(SRC_DIR)/%.c=$(BIN_DIR)/%)
-
-# Compilation principale : génère tous les exécutables
-all: $(EXECS)
-
-# Règle de compilation pour chaque exécutable
-$(BIN_DIR)/%: $(SRC_DIR)/%.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-
-# Création du dossier bin si nécessaire
-$(BIN_DIR):
-	mkdir -p $(BIN_DIR)
-
-# Nettoyage des fichiers compilés
+# Nettoyage dans tous les sous-projets
 clean:
-	rm -rf $(BIN_DIR)
+	@for dir in $(SUBDIRS); do \
+		if [ -f $$dir/makefile ]; then \
+			$(MAKE) -C $$dir clean; \
+		fi \
+	done
 
-# Supprime tout et recompile
+# Nettoyage complet et recompilation
 re: clean all
 
 .PHONY: all clean re

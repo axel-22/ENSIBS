@@ -20,11 +20,11 @@ int compare(int a, int b) {
 
 
 int demander_nombre() {
-    float nombre;
+    int nombre;
     float input;
     char term;
     do {
-        printf("Entrez un nombre décimal : ");
+        printf("Entrez un nombre entier : ");
         input = scanf("%d%c", &nombre, &term);
         // Vérifier si scanf a bien lu un entier
         if (input != 2 || term != '\n') {

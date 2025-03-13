@@ -7,8 +7,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lm
 
-# Trouver tous les fichiers .c
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+# Trouver tous les fichiers .c (sauf les .h)
+SRCS = $(filter-out $(SRC_DIR)/*.h, $(wildcard $(SRC_DIR)/*.c))
 
 # Transformer chaque .c en exécutable
 EXECS = $(SRCS:$(SRC_DIR)/%.c=$(BIN_DIR)/%)

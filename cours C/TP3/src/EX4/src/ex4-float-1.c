@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 // Fonction de comparaison
-int compare(int a, int b) {
+int compare(float a, float b) {
     int ret;
     if (a == b) {
         ret = 1;
@@ -23,7 +23,7 @@ int demander_nombre() {
     char term;
     do {
         printf("Entrez un nombre décimal : ");
-        input = scanf("%d%c", &nombre, &term);
+        input = scanf("%f%c", &nombre, &term);
         // Vérifier si scanf a bien lu un entier
         if (input != 2 || term != '\n') {
             printf("Erreur: Veuillez entrer un nombre valide !\n");
