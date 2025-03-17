@@ -7,24 +7,26 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lm
 
-# Trouver tous les fichiers .c (sauf les .h)
-SRCS = $(filter-out $(SRC_DIR)/*.h, $(wildcard $(SRC_DIR)/*.c))
+# Fichier source commun (librairie)
+LIB_SRC = $(SRC_DIR)/ex5-degre.c
 
-# Transformer chaque .c en exécutable
-EXECS = $(SRCS:$(SRC_DIR)/%.c=$(BIN_DIR)/%)
+# Trouver les fichiers tests (qui contiennent le main)
+TEST_SRCS = $(filter-out $(LIB_SRC), $(wildcard $(SRC_DIR)/*.c))
 
-# Compilation principale : génère tous les exécutables
+# Exécutables correspondants
+EXECS = $(TEST_SRCS:$(SRC_DIR)/%.c=$(BIN_DIR)/%)
+
 all: $(EXECS)
 
-# Règle de compilation pour chaque exécutable
-$(BIN_DIR)/%: $(SRC_DIR)/%.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+# Compilation de chaque test avec la librairie
+$(BIN_DIR)/%: $(SRC_DIR)/%.c $(LIB_SRC) | $(BIN_DIR)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-# Création du dossier bin si nécessaire
+# Créer le dossier bin si nécessaire
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Nettoyage des fichiers compilés
+# Nettoyage
 clean:
 	rm -rf $(BIN_DIR)
 
