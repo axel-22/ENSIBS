@@ -1,3 +1,9 @@
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP5 - Exercice 3-2 - Passage de pointeur
+ */
 #include <stdio.h>
 
 void modifier_pointeur(int **pp) {

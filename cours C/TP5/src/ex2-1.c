@@ -1,6 +1,9 @@
-/*
-*
-*/
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP5 - Exercice 2 - Pointeurs
+ */
 #include <stdio.h>
 void main()
 {

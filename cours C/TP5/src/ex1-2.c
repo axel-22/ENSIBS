@@ -1,8 +1,9 @@
-/*
-* TP 5 : Pointeurs
-*
-* : lecture de l'adresse des éléments d'un tableau
-*/
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP5 - Exercice 1-2 - Lecture de l'adresse des éléments d'un tableau
+ */
 #include <stdio.h>
 #define N 5
 void main()

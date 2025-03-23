@@ -1,8 +1,10 @@
-/*
-* TP 5 : Pointeurs
-*
-* lecture de l'adresse d'une variable
-*/
+/**
+ * @author HUGO Chiarel
+ * @author JEMAI Axel
+ * @date 30/03/2025
+ * TP5 - Exercice 1 - Lecture de l'adresse d'une variable
+ */
+
 #include <stdio.h>
 void main()
 {
