@@ -1,9 +1,17 @@
+'''
+JEMAI Axel
+PERROT Jean
+TD3/TP6
+'''
 import socket
 from sympy import randprime
 from Cryptodome.Util import number
 import random
 import json
 import hashlib
+from Cryptodome.Cipher import AES
+from Cryptodome.Random import get_random_bytes
+
 
 # Création du socket client
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,8 +64,8 @@ for a, b in zip(aes_shared_key_received, AB_key_bytes):
     aes_key += bytes([a ^ b])
     
 print(f"[Bob] Clé aes : {aes_key}")
-received_hash = keys['hash']
 
+received_hash = keys['hash']
 # Calculer le hash SHA-256 de la clé partagée chiffrée reçue
 calculated_hash = hashlib.sha256(aes_key).hexdigest()
 
@@ -67,11 +75,27 @@ if calculated_hash == received_hash:
     # Message de confirmation
     message = "Bien reçu !"
     message_bytes = message.encode('utf-8') # Convertir le message en bytes
+    
     # chiffrer le message avec la clé AES
-    aes_ack= b''
-    for a, b in zip(aes_key, message_bytes):
-        aes_ack += bytes([a ^ b])
-    client.send(aes_ack)
+    nonce = get_random_bytes(12)       # Nonce recommandé pour GCM
+    cipher = AES.new(aes_key, AES.MODE_GCM, nonce=nonce) # Utilisation du mode GCM car recommandé pour les messages courts et les API mais pas pour les documents
+    ciphertext, tag = cipher.encrypt_and_digest(message_bytes) # Chiffrement du message ici
+
+    # 4. Stocker ou transmettre (clé, nonce, tag et ciphertext)
+    print(f"[Bob] Chiffré   : {ciphertext.hex()}")
+    print(f"[Bob] Tag       : {tag.hex()}")
+    print(f"[Bob] Nonce     : {nonce.hex()}")
+
+    ack = {
+        'msg': ciphertext.hex(),
+        'tag': tag.hex(),
+        'nonce': nonce.hex()
+    }
+    # Conversion du dictionnaire en JSON
+    ack_json = json.dumps(ack)
+
+    # Envoi du dictionnaire converti en JSON (en bytes)
+    client.send(ack_json.encode())
 else:
     print("[Bob] ERREUR : L'intégrité de la clé chiffrée a échoué. La clé pourrait avoir été modifiée.")
 

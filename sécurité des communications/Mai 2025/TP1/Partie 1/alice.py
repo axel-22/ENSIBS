@@ -1,10 +1,17 @@
+'''
+JEMAI Axel
+PERROT Jean
+TD3/TP6
+'''
 import socket
 from sympy import randprime
 from Cryptodome.Random import get_random_bytes
 from Cryptodome.Util import number
+from Cryptodome.Cipher import AES
 import random
 import hashlib
 import json
+import time
 
 # Création du socket serveur
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -62,13 +69,17 @@ keys_json = json.dumps(keys)
 
 # Envoi du dictionnaire converti en JSON (en bytes)
 conn.send(keys_json.encode())
+# Récuprération de l'ack de Bob
+ack_msg = conn.recv(1024)
+print(f"[Alice] Ack de Bob : {ack_msg}")
+ack = json.loads(ack_msg)
+print(ack)
 
-ack_alice = conn.recv(1024)
-ack_decrypted = b''
-for a, b in zip(ack_alice, aes_key):
-    ack_decrypted += bytes([a ^ b])
+# Déchiffrement du message grace aux informations reçues dans l'ack
+cipher_dec = AES.new(aes_key, AES.MODE_GCM, nonce=bytes.fromhex(ack['nonce'])) # recréation du cipher
+decrypted = cipher_dec.decrypt_and_verify(bytes.fromhex(ack['msg']), bytes.fromhex(ack['tag'])) # Déchiffrement du message
 
-message = ack_decrypted.decode('utf-8')  # Là tu peux faire decode
+message = decrypted.decode('utf-8')  # Là tu peux faire decode
 print(f"[Alice] Message de Bob : {message}")
 
 input("[Alice] Appuyez sur Entrée pour fermer la connexion...")
