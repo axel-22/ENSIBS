@@ -1,5 +1,5 @@
 import socket
-
+from sympy import randprime
 # Création du socket client
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -18,10 +18,10 @@ print("[Bob] Connecté à Alice.")
 print(f"[Bob] Adresse locale : {local_ip}:{local_port}")
 print(f"[Bob] Alice est connectée sur : {remote_ip}:{remote_port}")
 
-p = 23
+p = randprime(1, 50)
 b = 13
-g = 7
-B_pkey = g**b%p
+g = 2
+B_pkey = pow(g, b, p) # calcul de  g**b%p 
 
 # Réception de la clé publique d'Alice
 A_pkey = int(client.recv(1024).decode())
@@ -32,7 +32,7 @@ client.send(str(B_pkey).encode())
 print(f"[Bob] Clé publique envoyée : {B_pkey}")
 
 # Calcul de la clé partagée
-AB_key = A_pkey**b%p
+AB_key = pow(A_pkey, b, p) # calcul A_pkey**b%p
 print(f"[Bob] Clé partagée : {AB_key}")
 
 input("[Bob] Appuyez sur Entrée pour fermer la connexion...")
