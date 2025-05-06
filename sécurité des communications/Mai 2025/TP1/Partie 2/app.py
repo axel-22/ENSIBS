@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import rsa
-name = 'my web server'
+
+name = 'main'
 app = Flask(name)
 
 #Générer les clés publique et privée
