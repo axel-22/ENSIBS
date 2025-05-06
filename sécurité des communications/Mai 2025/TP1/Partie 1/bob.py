@@ -1,5 +1,9 @@
 import socket
 from sympy import randprime
+from Cryptodome.Util import number
+import random
+
+
 # Création du socket client
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -18,8 +22,9 @@ print("[Bob] Connecté à Alice.")
 print(f"[Bob] Adresse locale : {local_ip}:{local_port}")
 print(f"[Bob] Alice est connectée sur : {remote_ip}:{remote_port}")
 
-p = randprime(1, 50)
-b = 13
+# --- Le reste du programme ---
+p = number.getPrime(2048) # p est un nombre premier
+b = random.randint(2, p-1) # a est un nombre aléatoire
 g = 2
 B_pkey = pow(g, b, p) # calcul de  g**b%p 
 
@@ -35,6 +40,8 @@ print(f"[Bob] Clé publique envoyée : {B_pkey}")
 AB_key = pow(A_pkey, b, p) # calcul A_pkey**b%p
 print(f"[Bob] Clé partagée : {AB_key}")
 
+
 input("[Bob] Appuyez sur Entrée pour fermer la connexion...")
 client.close()
 print("[Bob] Connexion fermée.")
+
