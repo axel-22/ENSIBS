@@ -23,7 +23,7 @@ print("[Bob] Connecté à Alice.")
 print(f"[Bob] Adresse locale : {local_ip}:{local_port}")
 print(f"[Bob] Alice est connectée sur : {remote_ip}:{remote_port}")
 
-# --- Le reste du programme ---
+
 p = int(client.recv(1024).decode()) # p est un nombre premier reçu d'Alice
 b = random.randint(2, p-1) # a est un nombre aléatoire
 g = 2

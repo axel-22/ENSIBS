@@ -16,7 +16,7 @@ print("[Alice] En attente d'une connexion...")
 conn, addr = server.accept()
 print(f"[Alice] Bob connecté depuis {addr}")
 
-# --- Le reste du programme ---
+
 p = number.getPrime(128) # p est un nombre premier
 a = random.randint(2, p-1) # a est un nombre aléatoire
 g = 2
@@ -50,6 +50,7 @@ for a, b in zip(aes_key, AB_key_bytes):
 
 print(f"[Alice] Clé partagée chiffrée avec Bob : {aes_shared_key}")
 
+# Calcul du hash SHA-256 de la clé AES
 sha256_hash = hashlib.sha256(aes_key).hexdigest()
 print(f"[Alice] Hash SHA-256 de la clé AES : {sha256_hash}")
 keys = {
