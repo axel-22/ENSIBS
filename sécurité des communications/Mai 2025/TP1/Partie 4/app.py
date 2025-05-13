@@ -1,0 +1,38 @@
+from flask import Flask, request, jsonify, json
+import rsa
+
+app = Flask(__name__)
+app.debug = True
+#Générer les clés publique et privée
+(public_key, private_key) = rsa.newkeys(512)  # 512 bits pour la démonstration
+
+@app.route('/public_key', methods=['GET'])
+def get_public_key():
+    return jsonify({
+        'n': public_key.n,
+        'e': public_key.e
+    })
+
+@app.route('/decrypt', methods=['POST'])
+def decrypt_message():
+    try:
+        signed_message = bytes.fromhex(request.json['message_signed'])  # Récupérer le message signé
+        C_pub = rsa.PublicKey(n=request.json['public_key']['n'], e=request.json['public_key']['e']) # Récupérer la clé publique du client
+        crypted_message = bytes.fromhex(request.json['message_crypted'])  # Récupérer le message chiffré
+        decrypted = rsa.decrypt(crypted_message, private_key)  # Déchiffrer le message chiffré
+        isValid = rsa.verify(decrypted, signed_message ,C_pub)  # Vérifier la signature
+        ack = "Accepter"
+        code = 200
+            
+    except Exception as e:
+        if str(e) == "Verification failed":
+            ack = "Rejeter"
+            code = 400
+        else:
+            return jsonify({'error': str(e)}), code
+    retobject = {
+        'msg': decrypted.decode('utf-8'),  # Convertir le message déchiffré en chaîne de caractères
+        'ack': ack
+    }
+    return jsonify(retobject), code
+app.run(port=5000)
