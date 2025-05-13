@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
 import rsa
 
-name = 'main'
-app = Flask(name)
+app = Flask(__name__)
 
 #Générer les clés publique et privée
 (public_key, private_key) = rsa.newkeys(512)  # 512 bits pour la démonstration
@@ -23,5 +22,4 @@ def decrypt_message():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-if name == 'main':
-    app.run(port=5000)
+app.run(port=5000)
