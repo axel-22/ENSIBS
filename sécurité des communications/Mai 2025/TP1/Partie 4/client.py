@@ -1,3 +1,8 @@
+'''
+JEMAI Axel
+PERROT Jean
+TD3/TP6
+'''
 import requests
 import rsa
 

@@ -1,3 +1,8 @@
+'''
+JEMAI Axel
+PERROT Jean
+TD3/TP6
+'''
 from flask import Flask, request, jsonify, json
 import rsa
 
