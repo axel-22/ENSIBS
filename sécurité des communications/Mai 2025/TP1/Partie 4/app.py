@@ -15,6 +15,7 @@ def get_public_key():
 
 @app.route('/decrypt', methods=['POST'])
 def decrypt_message():
+    code = 400
     try:
         signed_message = bytes.fromhex(request.json['message_signed'])  # Récupérer le message signé
         C_pub = rsa.PublicKey(n=request.json['public_key']['n'], e=request.json['public_key']['e']) # Récupérer la clé publique du client
@@ -27,7 +28,6 @@ def decrypt_message():
     except Exception as e:
         if str(e) == "Verification failed":
             ack = "Rejeter"
-            code = 400
         else:
             return jsonify({'error': str(e)}), code
     retobject = {
