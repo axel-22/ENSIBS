@@ -4,48 +4,15 @@ import sys
 import logging
 from werkzeug.serving import WSGIRequestHandler
 import requests
-import rsa
 
-# Handler silencieux
+
 class QuietHandler(WSGIRequestHandler):
     def log_request(self, code='-', size='-'):
         pass
 
-# Vérification des arguments
-if len(sys.argv) != 3:
-    print("Usage: python3 client.py <port> <name>")
-    sys.exit(1)
-
-port = int(sys.argv[1])
-name = sys.argv[2]
-
-# Définir l'adresse du contact distant
-other_port = 5001 if port == 5002 else 5002
-other_url = f"http://127.0.0.1:{other_port}/send"
-
-(public_key, private_key) = rsa.newkeys(1024)  #Genérer les clés publique et privée
-
 
 app = Flask(__name__)
 messages = []
-
-# Envoi de la clé publique au contact distant localhost 5000
-def send_public_key(public_key, name ):
-    try:
-        requests.post("http://127.0.0.1:5000/public_key", json={
-            "public_key": {
-                "n": public_key.n,
-                "e": public_key.e
-            },
-            "name": name
-        })
-    except requests.exceptions.RequestException as e:
-        print(f"Erreur en envoyant la clé publique à {other_url}: {e}")
-        sys.exit(1)
-
-send_public_key(public_key, name)
-
-
 
 @app.route("/")
 def index():
@@ -55,7 +22,7 @@ def index():
 def send():
     data = request.get_json()
     msg = data.get("message")
-    sender = data.get("from", name)
+    sender = data.get("from", "Alice")
     forwarded = data.get("forwarded", False)
 
     if msg:
@@ -66,34 +33,36 @@ def send():
         # Relayer uniquement si pas encore relayé
         if not forwarded:
             try:
-                requests.post(other_url, json={
+                requests.post("http://127.0.0.1:5002/send", json={
                     "message": msg,
                     "from": sender,
                     "forwarded": True
                 })
             except requests.exceptions.RequestException as e:
-                print(f"Erreur en envoyant à {other_url}: {e}")
+                print(f"Erreur en envoyant à Bob: {e}")
 
     return "OK"
+
 
 @app.route("/messages")
 def get_messages():
     return jsonify(messages[-50:])
 
+
 def terminal_input():
     while True:
         try:
             msg = input()
-            entry = {"text": msg, "from": name}
-            messages.append(entry)
+            formatted = f"[Alice] {msg}"
+            messages.append(formatted)
             try:
-                requests.post(other_url, json=entry)
+                requests.post("http://127.0.0.1:5002/send", json={"message": formatted})
             except requests.exceptions.RequestException as e:
-                print(f"Erreur en envoyant à {other_url}: {e}")
+                print(f"Erreur en envoyant à Bob: {e}")
         except KeyboardInterrupt:
             break
 
 if __name__ == "__main__":
     threading.Thread(target=terminal_input, daemon=True).start()
     from werkzeug.serving import run_simple
-    run_simple("127.0.0.1", port, app, request_handler=QuietHandler, use_reloader=False)
+    run_simple("127.0.0.1", 5001, app, request_handler=QuietHandler, use_reloader=False)

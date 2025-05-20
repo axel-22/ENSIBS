@@ -114,7 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     // JOINDRE LE ROOM AVEC L'ID UTILISATEUR
-    socket.emit('join_room', { user_id: user_id });
+    socket.emit('join_room', { user_id });
+
     // Envoi du message via Socket.IO
     socket.emit('send_message', {
       to: selectedUser,
@@ -150,13 +151,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- Réception en temps réel d'un nouveau message via socket ---
   socket.on('receive_message', (msg) => {
     // Si le message reçu concerne la conversation ouverte, on recharge l'affichage
-    // console.log("data receive", msg.from.to);
-    // console.log("Selected user", selectedUser.toLowerCase());
-    // if (selectedUser && (msg.from.toLowerCase() === selectedUser.toLowerCase())) {
+    if (selectedUser && msg) {
     //   console.log("ici");
-      
-    // }
-    loadMessagesForUser(selectedUser);
+      loadMessagesForUser(selectedUser);
+    }
+    
   });
 
 
