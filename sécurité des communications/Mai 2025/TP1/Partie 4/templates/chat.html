@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<head>
+<!-- CDN Bootstrap & jQuery -->
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+
+<!-- Styles personnalisés -->
+ <script>const username = "{{ username | e }}";</script>
+<script>const user_id = "{{ user_id | e }}";</script> 
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- Conteneur principal -->
+<div class="container app">
+  <div class="app-one">
+    <div class="col-sm-4 side">
+
+      <!-- === Panneau principal === -->
+      <div class="side-one">
+
+        <!-- En-tête utilisateur -->
+        <div class="row heading">
+          <div class="col-sm-3 heading-avatar padding-top 4">
+            <div class="heading-avatar-icon">
+              <img src="{{ avatar }}" alt="Avatar utilisateur">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <span class="username" style="line-height: 50px;">{{ username }}</span>
+          </div>
+          <div class="col-sm-3 text-right">
+            <i class="fa fa-sign-out fa-3x" title="Options" data-toggle="modal" data-target="#logoutModal" style="cursor:pointer;"></i>
+          </div>
+        </div>
+
+        <!-- Modal de déconnexion -->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+          <div class="modal-dialog"> <!-- pas centered en BS3 -->
+            <div class="modal-content text-center">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+                <h4 class="modal-title" id="logoutModalLabel">Se déconnecter</h4>
+              </div>
+              <div class="modal-body">
+                Voulez-vous vraiment vous déconnecter ?
+              </div>
+              <div class="modal-footer" style="text-align:center;">
+                <form action="/logout" method="POST" style="display:inline-block;">
+                  <button type="submit" class="btn btn-danger">Se déconnecter</button>
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Champ de recherche -->
+        <div class="row searchBox">
+          <div class="col-sm-12 searchBox-inner">
+            <div class="form-group has-feedback">
+              <input id="searchText" type="text" class="form-control" placeholder="Rechercher...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Liste des utilisateurs -->
+        <div class="sideBar">
+          {% for user in users %}
+          <div class="row sideBar-body" data-username="{{ user.pseudo | lower }}">
+            <div class="col-sm-3 sideBar-avatar">
+              <div class="avatar-icon">
+                <img src="{{ user.avatar_url }}" alt="Avatar de {{ user.pseudo }}">
+              </div>
+            </div>
+            <div class="col-sm-9 sideBar-main">
+              <div class="row">
+                <div class="col-sm-8 sideBar-name">
+                  <span class="name-meta">{{ user.pseudo }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+
+    </div> <!-- /.col-sm-4 -->
+
+    <!-- Zone de conversation -->
+    <div class="col-sm-8 conversation">
+    <!-- En-tête conversation avec interlocuteur -->
+<div class="conversation-header" style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #444; background-color: #222; color: #eee;">
+  <div class="conversation-avatar" style="width: 40px; height: 40px; margin-right: 10px;">
+    <img src="" alt="Avatar interlocuteur" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+  </div>
+  <div class="conversation-username" style="font-weight: bold; font-size: 18px;">
+    Sélectionnez un utilisateur
+  </div>
+</div>
+
+
+      <!-- Zone des messages -->
+      <div class="message-area" id="message-area">
+        <!-- <div class="message received">
+          <p>Salut, ça va ?</p>
+        </div>
+        <div class="message sent">
+          <p>Oui super, et toi ?</p>
+        </div> -->
+      </div>
+
+      <!-- Zone de réponse -->
+      <div class="reply">
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="1" placeholder="Tapez votre message..."></textarea>
+        </div>
+        <div class="col-sm-2 text-center reply-send">
+          <i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/message.js') }}"></script>
+</body>

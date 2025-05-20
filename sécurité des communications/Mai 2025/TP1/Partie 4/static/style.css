@@ -1,0 +1,159 @@
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.app {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.heading{
+  background-color: #2c2c2c;
+  border-bottom: 1px solid #444;
+  padding-top: 10px;
+}
+
+.searchBox-inner {
+  background-color: #2c2c2c;
+  border-bottom: 1px solid #444;
+  padding-top: 15px;
+}
+.sideBar-body,
+.composeBox-inner,
+.newMessage-heading {
+  background-color: #2c2c2c;
+  border-bottom: 1px solid #444;
+}
+
+.form-control {
+  background-color: #333;
+  border: none;
+  color: #fff;
+}
+
+.form-control::placeholder {
+  color: #aaa;
+}
+
+.sideBar-body {
+  padding: 10px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.sideBar-body:hover {
+  background-color: #3a3a3a;
+}
+
+.sideBar-avatar img,
+.avatar-icon img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.sideBar-name .name-meta {
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.heading-avatar-icon img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.heading span,
+.newMessage-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 50px;
+}
+
+.sideBar-time {
+  color: #999;
+  font-size: 12px;
+}
+
+.conversation {
+  background-color: #1e1e1e;
+  border-left: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  padding: 0;
+}
+
+.message-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;  
+  flex-direction: column;
+  padding: 15px;
+  background-color: #1a1a1a;
+}
+
+.message {
+  margin: 10px 0;
+}
+
+.message.sent p {
+  background-color: #28a745;
+  color: white;
+  border-radius: 12px 12px 0 12px;
+  padding: 10px;
+  display: inline-block;
+  max-width: 75%;
+  text-align: right;
+  float: right;
+}
+
+.message.received p {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border-radius: 12px 12px 12px 0;
+  padding: 10px;
+  display: inline-block;
+  max-width: 75%;
+  float: left;
+}
+
+.reply {
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-top: 1px solid #444;
+  display: flex;
+  align-items: center;
+}
+
+.reply textarea {
+  resize: none;
+  background-color: #333;
+  color: #fff;
+  border: none;
+}
+
+.reply-send i {
+  color: #28a745;
+  cursor: pointer;
+}
+.reply-send i:hover {
+  color: #218838;
+  cursor: pointer;
+}
+
+.message-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-area::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 4px;
+}
+

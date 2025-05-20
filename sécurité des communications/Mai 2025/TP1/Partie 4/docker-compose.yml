@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  anochat_db:
+    image: mysql:8.0
+    container_name: anochat_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: anochat
+      MYSQL_USER: anouser
+      MYSQL_PASSWORD: anopass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./tables.sql:/docker-entrypoint-initdb.d/tables.sql
+
+  anochat_app:
+    build: .
+    container_name: anochat_app
+    restart: always
+    depends_on:
+      - anochat_db
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app  # Monte le dossier courant dans /app du conteneur (reload du code)
+    environment:
+      FLASK_ENV: development
+      DB_HOST: anochat_db
+      DB_PORT: 3306
+      DB_USER: anouser
+      DB_PASSWORD: anopass
+      DB_NAME: anochat
+
+volumes:
+  db_data:

@@ -1,0 +1,5 @@
+rsa
+requests
+flask
+mysql-connector-python
+flask_socketio
